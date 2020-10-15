@@ -6,6 +6,7 @@ public class VDQuestion {
     public Integer questionId;
     public String contenu;
     public List<VDVote> tousLesVotes;
+    public Integer nbVote;
 
     public VDQuestion(){
 

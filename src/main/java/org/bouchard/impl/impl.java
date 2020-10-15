@@ -23,7 +23,7 @@ public class impl implements Service {
         for(VDQuestion q : questions){
             if(q.contenu.contains(question.contenu)) throw  new MauvaiseQuestion();
         }
-
+        question.nbVote =0;
         question.questionId = qId;
         qId++;
         List<VDVote> listVotes = new ArrayList<VDVote>();
@@ -47,6 +47,7 @@ public class impl implements Service {
         for(VDQuestion q : questions){
             if(vote.questionId == q.questionId){
                 q.tousLesVotes.add(vote);
+                q.nbVote++;
             }
         }
         votes.add(vote);
@@ -55,6 +56,7 @@ public class impl implements Service {
     @Override
     public List<VDQuestion> questionsParNombreVotes() {
         List<VDQuestion> questionEnOrdre = new ArrayList<>(questions);
+        /*
         int n = questionEnOrdre.size();
         for(int i = 0; i < n-1 ;i++){
             for(int j = 0; j < n -i-1;j++){
@@ -63,7 +65,7 @@ public class impl implements Service {
                     questionEnOrdre.set(j, questionEnOrdre.get(j+1));
                     questionEnOrdre.set(j+1, temp);
                 }
-                /*if(questionEnOrdre.get(j).tousLesVotes.size() == questionEnOrdre.get(j+1).tousLesVotes.size()){
+                if(questionEnOrdre.get(j).tousLesVotes.size() == questionEnOrdre.get(j+1).tousLesVotes.size()){
                     int debut = j;
                     int fin = j+1;
                     for(int k = j; k < n-j-1; j++){
@@ -73,9 +75,19 @@ public class impl implements Service {
                         else break;
                     }
                     Collections.sort(questionEnOrdre.subList(debut,fin), VDQuestion.CASE_INSENSITIVE_ORDER);
-                }*/
+                }
             }
-        }
+        }*/
+        Collections.sort(questionEnOrdre, new Comparator<VDQuestion>() {
+            @Override
+            public int compare(VDQuestion o1, VDQuestion o2) {
+                if(o1.nbVote.compareTo(o2.nbVote) == 0){
+                    return o1.contenu.compareToIgnoreCase(o2.contenu);
+                }else {
+                    return o2.nbVote.compareTo(o1.nbVote); }
+            }
+        });
+
         return questionEnOrdre;
     }
 
@@ -142,4 +154,5 @@ public class impl implements Service {
     public String nomEtudiant() {
         return "Bouchard Gabriel";
     }
+
 }

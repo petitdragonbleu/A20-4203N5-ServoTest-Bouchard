@@ -1,8 +1,8 @@
 package org.bouchard.impl;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.CaseInsensitiveMap;
-import org.bouchard.exceptions.MauvaisVote;
-import org.bouchard.exceptions.MauvaiseQuestion;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.bouchard.exceptions.*;
 import org.bouchard.interfaces.Service;
 import org.bouchard.modele.VDQuestion;
 import org.bouchard.modele.VDVote;
@@ -17,12 +17,14 @@ public class impl implements Service {
     public int vId =0;
 
     @Override
-    public void ajoutQuestion(VDQuestion question) throws MauvaiseQuestion {
-        if(question.questionId != null) throw  new MauvaiseQuestion();
+    public void ajoutQuestion(VDQuestion question) throws MauvaiseQuestion, QuestionIdNonNulle, QuestionExistante {
         if(question.contenu == null || question.contenu.length() < 5 || question.contenu.length() > 255) throw new MauvaiseQuestion();
         for(VDQuestion q : questions){
-            if(q.contenu.contains(question.contenu)) throw  new MauvaiseQuestion();
+            String contenu1 = q.contenu.toLowerCase();
+            String contenu2 = question.contenu.toLowerCase();
+            if(contenu1.equals(contenu2)) throw  new QuestionExistante();
         }
+        if(question.questionId != null) throw  new QuestionIdNonNulle();
         question.nbVote =0;
         question.questionId = qId;
         qId++;
@@ -33,15 +35,23 @@ public class impl implements Service {
     }
 
     @Override
-    public void ajoutVote(VDVote vote) throws MauvaisVote {
-        if(vote.voteId != null) throw new MauvaisVote();
-        if(vote.indice < 0 || vote.indice > 5) throw new MauvaisVote();
-        if(vote.questionId == null) throw new MauvaisVote();
-        for(VDVote v : questions.get(vote.questionId).tousLesVotes){
-            if(v.personne.toLowerCase().equals(vote.personne.toLowerCase()))
-                throw new MauvaisVote();
+    public void ajoutVote(VDVote vote) throws MauvaisVote, VoteIdNonNulle, MauvaisIndice, VoteDejaFait, VoteNonAssocierAQuestion {
+        if(vote.indice < 0 || vote.indice > 5) throw new MauvaisIndice();
+        if(vote.questionId == null) throw new VoteNonAssocierAQuestion();
+        Boolean questionIdExiste = false;
+        for(VDQuestion q : questions) {
+            if(q.questionId == vote.questionId) {
+                questionIdExiste = true;
+                break;
+            }
         }
 
+        if(questionIdExiste == false) throw new VoteNonAssocierAQuestion();
+        for(VDVote v : questions.get(vote.questionId).tousLesVotes)
+            if (v.personne.toLowerCase().equals(vote.personne.toLowerCase())) {
+                throw new VoteDejaFait();
+            }
+        if(vote.voteId != null) throw new VoteIdNonNulle();
         vote.voteId = vId;
         vId++;
         for(VDQuestion q : questions){

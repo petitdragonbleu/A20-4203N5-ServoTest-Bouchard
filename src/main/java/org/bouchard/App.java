@@ -1,7 +1,6 @@
 package org.bouchard;
 
-import org.bouchard.exceptions.MauvaisVote;
-import org.bouchard.exceptions.MauvaiseQuestion;
+import org.bouchard.exceptions.*;
 import org.bouchard.impl.impl;
 import org.bouchard.interfaces.Service;
 import org.bouchard.modele.VDQuestion;
@@ -49,7 +48,7 @@ public class App
                     question.contenu = contenu;
                     try {
                         service.ajoutQuestion(question);
-                    } catch (MauvaiseQuestion mauvaiseQuestion) {
+                    } catch (MauvaiseQuestion | QuestionIdNonNulle | QuestionExistante mauvaiseQuestion) {
                         mauvaiseQuestion.printStackTrace();
                     }
                     break;
@@ -95,7 +94,7 @@ public class App
                     vote.indice = indice;
                     try {
                         service.ajoutVote(vote);
-                    } catch (MauvaisVote mauvaisVote) {
+                    } catch (MauvaisIndice | VoteNonAssocierAQuestion | VoteIdNonNulle | VoteDejaFait | MauvaisVote mauvaisVote) {
                         mauvaisVote.printStackTrace();
                     }
                     break;

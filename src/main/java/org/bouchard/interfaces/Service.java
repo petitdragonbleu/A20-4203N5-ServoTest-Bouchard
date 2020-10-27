@@ -1,7 +1,6 @@
 package org.bouchard.interfaces;
 
-import org.bouchard.exceptions.MauvaiseQuestion;
-import org.bouchard.exceptions.MauvaisVote;
+import org.bouchard.exceptions.*;
 import org.bouchard.modele.VDQuestion;
 import org.bouchard.modele.VDVote;
 
@@ -10,9 +9,9 @@ import java.util.Map;
 
 public interface Service {
 
-    void ajoutQuestion(VDQuestion question) throws MauvaiseQuestion;
+    void ajoutQuestion(VDQuestion question) throws MauvaiseQuestion, QuestionIdNonNulle, QuestionExistante;
 
-    void ajoutVote(VDVote vote) throws MauvaisVote;
+    void ajoutVote(VDVote vote) throws MauvaisVote, VoteIdNonNulle, MauvaisIndice, VoteDejaFait, VoteNonAssocierAQuestion;
 
     List<VDQuestion> questionsParNombreVotes();
 

@@ -91,7 +91,7 @@ public class TestService {
     }
 
     @Test(expected = VoteIdNonNulle.class)
-    public void creerVoteIdNonNulle() throws MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante {
+    public void creerVoteIdNonNulle() throws MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante {
 
         Service service = new impl();
 
@@ -110,7 +110,7 @@ public class TestService {
     }
 
     @Test(expected = VoteDejaFait.class)
-    public void creerVoteDejatFait() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void creerVoteDejatFait() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -134,7 +134,7 @@ public class TestService {
     }
 
     @Test(expected = VoteDejaFait.class)
-    public void creerVoteDejatFaitMajuscule() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void creerVoteDejatFaitMajuscule() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -158,7 +158,7 @@ public class TestService {
     }
 
     @Test(expected = MauvaisIndice.class)
-    public void creerVoteMauvaisIndicePetit() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void creerVoteMauvaisIndicePetit() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -175,7 +175,7 @@ public class TestService {
     }
 
     @Test(expected = MauvaisIndice.class)
-    public void creerVoteMauvaisIndiceGrand() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void creerVoteMauvaisIndiceGrand() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -192,7 +192,7 @@ public class TestService {
     }
 
     @Test(expected = VoteNonAssocierAQuestion.class)
-    public void creerVoteQuestionIdNulle() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void creerVoteQuestionIdNulle() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -208,7 +208,7 @@ public class TestService {
     }
 
     @Test(expected = VoteNonAssocierAQuestion.class)
-    public void creerVoteQuestionIdInexistante() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void creerVoteQuestionIdInexistante() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -225,7 +225,7 @@ public class TestService {
     }
 
     @Test
-    public void listeQuestionsTrieesNbDeVotesDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void listeQuestionsTrieesNbDeVotesDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
 
         Service service = new impl();
 
@@ -269,7 +269,7 @@ public class TestService {
     }
 
     @Test
-    public void listeQuestionsTrieesMemeNombreDeVotes() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void listeQuestionsTrieesMemeNombreDeVotes() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
 
         Service service = new impl();
 
@@ -312,7 +312,7 @@ public class TestService {
     }
 
     @Test
-    public void calculDistribution() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void calculDistribution() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
 
         Service service = new impl();
 
@@ -369,7 +369,7 @@ public class TestService {
     }
 
     @Test
-    public void calculMoyenne() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void calculMoyenne() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
 
         Service service = new impl();
 
@@ -399,7 +399,7 @@ public class TestService {
     }
 
     @Test
-    public void calculEcartType() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void calculEcartType() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
         Service service = new impl();
 
         VDQuestion question = new VDQuestion();
@@ -425,5 +425,12 @@ public class TestService {
         service.ajoutVote(vote3);
 
         Assert.assertEquals(1.4142135623731, service.ecartTypePour(question), 0.0000000000001);
+    }
+
+    @Test
+    public void nomEtudiant(){
+        String resultat = "Bouchard Gabriel";
+        Service service = new impl();
+        Assert.assertEquals(resultat, service.nomEtudiant());
     }
 }

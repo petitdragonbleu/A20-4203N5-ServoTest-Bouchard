@@ -35,7 +35,7 @@ public class impl implements Service {
     }
 
     @Override
-    public void ajoutVote(VDVote vote) throws MauvaisVote, VoteIdNonNulle, MauvaisIndice, VoteDejaFait, VoteNonAssocierAQuestion {
+    public void ajoutVote(VDVote vote) throws VoteIdNonNulle, MauvaisIndice, VoteDejaFait, VoteNonAssocierAQuestion {
         if(vote.indice < 0 || vote.indice > 5) throw new MauvaisIndice();
         if(vote.questionId == null) throw new VoteNonAssocierAQuestion();
         Boolean questionIdExiste = false;

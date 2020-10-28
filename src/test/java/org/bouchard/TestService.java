@@ -8,6 +8,11 @@ import org.bouchard.modele.VDVote;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class TestService {
 
     @Test(expected = QuestionIdNonNulle.class)
@@ -217,5 +222,208 @@ public class TestService {
         vote.indice = 4;
 
         service.ajoutVote(vote);
+    }
+
+    @Test
+    public void listeQuestionsTrieesNbDeVotesDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+
+        Service service = new impl();
+
+        VDQuestion question1 = new VDQuestion();
+        question1.contenu = "Ma question 1";
+        service.ajoutQuestion(question1);
+
+        VDQuestion question2 = new VDQuestion();
+        question2.contenu = "Ma question 2";
+        service.ajoutQuestion(question2);
+
+        VDQuestion question3 = new VDQuestion();
+        question3.contenu = "Ma question 3";
+        service.ajoutQuestion(question3);
+
+        VDVote vote1 = new VDVote();
+        vote1.indice = 4;
+        vote1.questionId = question3.questionId;
+        vote1.personne = "Gab";
+        service.ajoutVote(vote1);
+
+        VDVote vote2 = new VDVote();
+        vote2.indice = 4;
+        vote2.questionId = question3.questionId;
+        vote2.personne = "Dan";
+        service.ajoutVote(vote2);
+
+        VDVote vote3 = new VDVote();
+        vote3.indice = 4;
+        vote3.questionId = question2.questionId;
+        vote3.personne = "Marc";
+        service.ajoutVote(vote3);
+
+        List<VDQuestion> resultat = new ArrayList<VDQuestion>();
+        resultat.add(question3);
+        resultat.add(question2);
+        resultat.add(question1);
+
+        Assert.assertEquals(resultat, service.questionsParNombreVotes());
+
+    }
+
+    @Test
+    public void listeQuestionsTrieesMemeNombreDeVotes() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+
+        Service service = new impl();
+
+        VDQuestion question1 = new VDQuestion();
+        question1.contenu = "Quel est ton nom ?";
+        service.ajoutQuestion(question1);
+
+        VDQuestion question2 = new VDQuestion();
+        question2.contenu = "Est-ce que tu aime le sport ?";
+        service.ajoutQuestion(question2);
+
+        VDQuestion question3 = new VDQuestion();
+        question3.contenu = "ou aime-tu manger ?";
+        service.ajoutQuestion(question3);
+
+        VDVote vote1 = new VDVote();
+        vote1.indice = 4;
+        vote1.questionId = question3.questionId;
+        vote1.personne = "Gab";
+        service.ajoutVote(vote1);
+
+        VDVote vote2 = new VDVote();
+        vote2.indice = 4;
+        vote2.questionId = question2.questionId;
+        vote2.personne = "Gab";
+        service.ajoutVote(vote2);
+
+        VDVote vote3 = new VDVote();
+        vote3.indice = 4;
+        vote3.questionId = question1.questionId;
+        vote3.personne = "Gab";
+        service.ajoutVote(vote3);
+
+        List<VDQuestion> resultat = new ArrayList<VDQuestion>();
+        resultat.add(question2);
+        resultat.add(question3);
+        resultat.add(question1);
+
+        Assert.assertEquals(resultat, service.questionsParNombreVotes());
+    }
+
+    @Test
+    public void calculDistribution() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+
+        Service service = new impl();
+
+        VDQuestion question = new VDQuestion();
+        question.contenu = "Ma question";
+        service.ajoutQuestion(question);
+
+        VDVote vote1 = new VDVote();
+        vote1.indice = 1;
+        vote1.personne = "Gab";
+        vote1.questionId = question.questionId;
+        service.ajoutVote(vote1);
+
+        VDVote vote2 = new VDVote();
+        vote2.indice = 5;
+        vote2.personne = "Dan";
+        vote2.questionId = question.questionId;
+        service.ajoutVote(vote2);
+
+        VDVote vote3 = new VDVote();
+        vote3.indice = 4;
+        vote3.personne = "Marc";
+        vote3.questionId = question.questionId;
+        service.ajoutVote(vote3);
+
+        VDVote vote4 = new VDVote();
+        vote4.indice = 2;
+        vote4.personne = "Laura";
+        vote4.questionId = question.questionId;
+        service.ajoutVote(vote4);
+
+        VDVote vote5 = new VDVote();
+        vote5.indice = 3;
+        vote5.personne = "Maude";
+        vote5.questionId = question.questionId;
+        service.ajoutVote(vote5);
+
+        VDVote vote6 = new VDVote();
+        vote6.indice = 0;
+        vote6.personne = "Gilles";
+        vote6.questionId = question.questionId;
+        service.ajoutVote(vote6);
+
+        Map<Integer, Integer> resultat = new HashMap<Integer, Integer>();
+
+        resultat.put(0, 1);
+        resultat.put(1,1);
+        resultat.put(2,1);
+        resultat.put(3,1);
+        resultat.put(4,1);
+        resultat.put(5,1);
+
+        Assert.assertEquals(resultat, service.distributionPour(question));
+    }
+
+    @Test
+    public void calculMoyenne() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+
+        Service service = new impl();
+
+        VDQuestion question = new VDQuestion();
+        question.contenu = "Ma question";
+        service.ajoutQuestion(question);
+
+        VDVote vote = new VDVote();
+        vote.indice = 2;
+        vote.personne = "Gab";
+        vote.questionId = question.questionId;
+        service.ajoutVote(vote);
+
+        VDVote vote2 = new VDVote();
+        vote2.indice = 2;
+        vote2.personne = "Dan";
+        vote2.questionId = question.questionId;
+        service.ajoutVote(vote2);
+
+        VDVote vote3 = new VDVote();
+        vote3.indice = 5;
+        vote3.personne = "Marc";
+        vote3.questionId = question.questionId;
+        service.ajoutVote(vote3);
+
+        Assert.assertEquals(3, service.moyennePour(question), 0.0000000001);
+    }
+
+    @Test
+    public void calculEcartType() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisVote, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+        Service service = new impl();
+
+        VDQuestion question = new VDQuestion();
+        question.contenu = "Ma question";
+        service.ajoutQuestion(question);
+
+        VDVote vote = new VDVote();
+        vote.indice = 2;
+        vote.personne = "Gab";
+        vote.questionId = question.questionId;
+        service.ajoutVote(vote);
+
+        VDVote vote2 = new VDVote();
+        vote2.indice = 2;
+        vote2.personne = "Dan";
+        vote2.questionId = question.questionId;
+        service.ajoutVote(vote2);
+
+        VDVote vote3 = new VDVote();
+        vote3.indice = 5;
+        vote3.personne = "Marc";
+        vote3.questionId = question.questionId;
+        service.ajoutVote(vote3);
+
+        Assert.assertEquals(1.4142135623731, service.ecartTypePour(question), 0.0000000000001);
     }
 }

@@ -9,7 +9,7 @@ import org.bouchard.modele.VDVote;
 
 import java.util.*;
 
-public class impl implements Service {
+public class Impl implements Service {
 
     public List<VDQuestion> questions = new ArrayList<VDQuestion>();
     public int qId =0;
@@ -17,8 +17,10 @@ public class impl implements Service {
     public int vId =0;
 
     @Override
-    public void ajoutQuestion(VDQuestion question) throws MauvaiseQuestion, QuestionIdNonNulle, QuestionExistante {
-        if(question.contenu == null || question.contenu.length() < 5 || question.contenu.length() > 255) throw new MauvaiseQuestion();
+    public void ajoutQuestion(VDQuestion question) throws QuestionIdNonNulle, QuestionExistante, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        if(question.contenu == null) throw new QuestionContenuNulle();
+        if(question.contenu.length() < 5) throw new QuestionPlusPetiteQue5();
+        if(question.contenu.length() > 255) throw new QuestionPlusGrandeQue255();
         for(VDQuestion q : questions){
             String contenu1 = q.contenu.toLowerCase();
             String contenu2 = question.contenu.toLowerCase();
@@ -28,8 +30,6 @@ public class impl implements Service {
         question.nbVote =0;
         question.questionId = qId;
         qId++;
-        List<VDVote> listVotes = new ArrayList<VDVote>();
-        question.tousLesVotes = listVotes;
         questions.add(question);
 
     }
@@ -47,19 +47,14 @@ public class impl implements Service {
         }
 
         if(questionIdExiste == false) throw new VoteNonAssocierAQuestion();
-        for(VDVote v : questions.get(vote.questionId).tousLesVotes)
+        for(VDVote v : listeVotesPourUneQuestion(questions.get(vote.questionId)))
             if (v.personne.toLowerCase().equals(vote.personne.toLowerCase())) {
                 throw new VoteDejaFait();
             }
         if(vote.voteId != null) throw new VoteIdNonNulle();
         vote.voteId = vId;
         vId++;
-        for(VDQuestion q : questions){
-            if(vote.questionId == q.questionId){
-                q.tousLesVotes.add(vote);
-                q.nbVote++;
-            }
-        }
+        questions.get(vote.questionId).nbVote++;
         votes.add(vote);
     }
 
@@ -85,7 +80,7 @@ public class impl implements Service {
 
         int zero =0, un=0, deux=0, trois=0, quatre=0, cinq=0;
 
-        for(VDVote v : question.tousLesVotes){
+        for(VDVote v : listeVotesPourUneQuestion(question)){
             if(v.indice == 0)
                 zero++;
             if(v.indice == 1)
@@ -114,7 +109,7 @@ public class impl implements Service {
     public double moyennePour(VDQuestion question) {
         double resultat =0;
         int index =0;
-        for(VDVote v : question.tousLesVotes){
+        for(VDVote v : listeVotesPourUneQuestion(question)){
             resultat += v.indice;
             index++;
         }
@@ -126,10 +121,10 @@ public class impl implements Service {
         double ecartType = 0;
         double moyenne = moyennePour(question);
         double variance =0;
-        for(VDVote v : question.tousLesVotes){
+        for(VDVote v : listeVotesPourUneQuestion(question)){
             variance += Math.pow(v.indice - moyenne,2);
         }
-        variance = variance/question.tousLesVotes.size();
+        variance = variance/listeVotesPourUneQuestion(question).size();
         ecartType = Math.sqrt(variance);
         return ecartType;
     }
@@ -137,6 +132,17 @@ public class impl implements Service {
     @Override
     public String nomEtudiant() {
         return "Bouchard Gabriel";
+    }
+
+    private List<VDVote> listeVotesPourUneQuestion(VDQuestion question){
+        List<VDVote> listeV = new ArrayList<>();
+
+        for(VDVote v : votes){
+            if(v.questionId == question.questionId)
+                listeV.add(v);
+        }
+
+        return listeV;
     }
 
 }

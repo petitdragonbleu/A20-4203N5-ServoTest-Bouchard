@@ -10,7 +10,7 @@ public class VDVote {
 
     }
 
-    public VDVote(int pIndice,String pPersonne, int pVoteId, int pQuestion){
+    public VDVote(int pIndice,String pPersonne, Integer pVoteId, Integer pQuestion){
         indice = pIndice;
         personne = pPersonne;
         voteId = pVoteId;

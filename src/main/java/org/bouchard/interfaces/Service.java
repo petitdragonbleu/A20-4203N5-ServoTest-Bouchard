@@ -9,9 +9,9 @@ import java.util.Map;
 
 public interface Service {
 
-    void ajoutQuestion(VDQuestion question) throws MauvaiseQuestion, QuestionIdNonNulle, QuestionExistante;
+    void ajoutQuestion(VDQuestion question) throws QuestionIdNonNulle, QuestionExistante, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle;
 
-    void ajoutVote(VDVote vote) throws MauvaisVote, VoteIdNonNulle, MauvaisIndice, VoteDejaFait, VoteNonAssocierAQuestion;
+    void ajoutVote(VDVote vote) throws VoteIdNonNulle, MauvaisIndice, VoteDejaFait, VoteNonAssocierAQuestion;
 
     List<VDQuestion> questionsParNombreVotes();
 

@@ -1,7 +1,7 @@
 package org.bouchard;
 
 import org.bouchard.exceptions.*;
-import org.bouchard.impl.impl;
+import org.bouchard.impl.Impl;
 import org.bouchard.interfaces.Service;
 import org.bouchard.modele.VDQuestion;
 import org.bouchard.modele.VDVote;
@@ -18,7 +18,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        Service service = new impl();
+        Service service = new Impl();
         Scanner scan = new Scanner(System.in).useDelimiter("\n");
         int choix = 0;
 
@@ -48,7 +48,7 @@ public class App
                     question.contenu = contenu;
                     try {
                         service.ajoutQuestion(question);
-                    } catch (MauvaiseQuestion | QuestionIdNonNulle | QuestionExistante mauvaiseQuestion) {
+                    } catch  (QuestionIdNonNulle | QuestionExistante | QuestionPlusPetiteQue5 | QuestionPlusGrandeQue255 | QuestionContenuNulle mauvaiseQuestion) {
                         mauvaiseQuestion.printStackTrace();
                     }
                     break;
@@ -94,17 +94,14 @@ public class App
                     vote.indice = indice;
                     try {
                         service.ajoutVote(vote);
-                    } catch (MauvaisIndice | VoteNonAssocierAQuestion | VoteIdNonNulle | VoteDejaFait | MauvaisVote mauvaisVote) {
+                    } catch (MauvaisIndice | VoteNonAssocierAQuestion | VoteIdNonNulle | VoteDejaFait mauvaisVote) {
                         mauvaisVote.printStackTrace();
                     }
                     break;
                 case 3:
                     System.out.println("Voici la liste de questions");
                     for(VDQuestion q : service.questionsParNombreVotes()){
-                        System.out.println("Id : " + q.questionId + " - Question : " + q.contenu + " - Nombres de vote :" + q.tousLesVotes.size());
-                        for(VDVote v : q.tousLesVotes){
-                            System.out.println("      VoteId : " + v.voteId + " - QuestionId : " + v.questionId + " - Indice : " + v.indice + "/5" + " - Nom : " + v.personne);
-                        }
+                        System.out.println("Id : " + q.questionId + " - Question : " + q.contenu + " - Nombres de vote :" + q.nbVote);
                     }
                     break;
                 case 4:

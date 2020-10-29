@@ -1,7 +1,7 @@
 package org.bouchard;
 
 import org.bouchard.exceptions.*;
-import org.bouchard.impl.impl;
+import org.bouchard.impl.Impl;
 import org.bouchard.interfaces.Service;
 import org.bouchard.modele.VDQuestion;
 import org.bouchard.modele.VDVote;
@@ -16,18 +16,18 @@ import java.util.Map;
 public class TestService {
 
     @Test(expected = QuestionIdNonNulle.class)
-    public void creerQuestionAvecIdNonNulle() throws MauvaiseQuestion, QuestionExistante, QuestionIdNonNulle {
+    public void creerQuestionAvecIdNonNulle() throws MauvaiseQuestion, QuestionExistante, QuestionIdNonNulle, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
         VDQuestion question = new VDQuestion();
         question.questionId = 1;
         question.contenu = "Ma question";
 
-        Service service = new impl();
+        Service service = new Impl();
         service.ajoutQuestion(question);
     }
 
     @Test(expected = QuestionExistante.class)
-    public void creerQuestionExistante() throws MauvaiseQuestion, QuestionExistante, QuestionIdNonNulle {
+    public void creerQuestionExistante() throws MauvaiseQuestion, QuestionExistante, QuestionIdNonNulle, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -35,13 +35,13 @@ public class TestService {
         VDQuestion question2 = new VDQuestion();
         question2.contenu = "Ma question";
 
-        Service service = new impl();
+        Service service = new Impl();
         service.ajoutQuestion(question);
         service.ajoutQuestion(question2);
     }
 
     @Test(expected = QuestionExistante.class)
-    public void creerQuestionExistanteMajuscule() throws MauvaiseQuestion, QuestionExistante, QuestionIdNonNulle {
+    public void creerQuestionExistanteMajuscule() throws MauvaiseQuestion, QuestionExistante, QuestionIdNonNulle, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -49,33 +49,41 @@ public class TestService {
         VDQuestion question2 = new VDQuestion();
         question2.contenu = "MA QUESTION";
 
-        Service service = new impl();
+        Service service = new Impl();
         service.ajoutQuestion(question);
         service.ajoutQuestion(question2);
     }
 
-    @Test(expected = MauvaiseQuestion.class)
-    public void creerQuestionPetitContenu() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante {
+    @Test(expected = QuestionContenuNulle.class)
+    public void creerQuestionContenuNulle() throws QuestionPlusPetiteQue5, QuestionIdNonNulle, QuestionContenuNulle, QuestionExistante, QuestionPlusGrandeQue255 {
+        VDQuestion question = new VDQuestion();
+
+        Service service = new Impl();
+        service.ajoutQuestion(question);
+    }
+
+    @Test(expected = QuestionPlusPetiteQue5.class)
+    public void creerQuestionPetitContenu() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma";
 
-        Service service = new impl();
+        Service service = new Impl();
         service.ajoutQuestion(question);
     }
 
-    @Test(expected = MauvaiseQuestion.class)
-    public void creerQuestionGrandContenu() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante {
+    @Test(expected = QuestionPlusGrandeQue255.class)
+    public void creerQuestionGrandContenu() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue. Cette question est trop longue.";
 
-        Service service = new impl();
+        Service service = new Impl();
         service.ajoutQuestion(question);
     }
 
     @Test
-    public void creerQuestionsIdDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante {
+    public void creerQuestionsIdDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
         VDQuestion question1 = new VDQuestion();
         question1.contenu = "Ma question";
@@ -83,7 +91,7 @@ public class TestService {
         VDQuestion question2 = new VDQuestion();
         question2.contenu = "Ma question2";
 
-        Service service = new impl();
+        Service service = new Impl();
         service.ajoutQuestion(question1);
         service.ajoutQuestion(question2);
 
@@ -91,9 +99,9 @@ public class TestService {
     }
 
     @Test(expected = VoteIdNonNulle.class)
-    public void creerVoteIdNonNulle() throws MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante {
+    public void creerVoteIdNonNulle() throws MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
-        Service service = new impl();
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -110,8 +118,8 @@ public class TestService {
     }
 
     @Test(expected = VoteDejaFait.class)
-    public void creerVoteDejatFait() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void creerVoteDejatFait() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -134,8 +142,8 @@ public class TestService {
     }
 
     @Test(expected = VoteDejaFait.class)
-    public void creerVoteDejatFaitMajuscule() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void creerVoteDejatFaitMajuscule() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -158,8 +166,8 @@ public class TestService {
     }
 
     @Test(expected = MauvaisIndice.class)
-    public void creerVoteMauvaisIndicePetit() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void creerVoteMauvaisIndicePetit() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -175,8 +183,8 @@ public class TestService {
     }
 
     @Test(expected = MauvaisIndice.class)
-    public void creerVoteMauvaisIndiceGrand() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void creerVoteMauvaisIndiceGrand() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -192,8 +200,8 @@ public class TestService {
     }
 
     @Test(expected = VoteNonAssocierAQuestion.class)
-    public void creerVoteQuestionIdNulle() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void creerVoteQuestionIdNulle() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -208,8 +216,8 @@ public class TestService {
     }
 
     @Test(expected = VoteNonAssocierAQuestion.class)
-    public void creerVoteQuestionIdInexistante() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void creerVoteQuestionIdInexistante() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -225,9 +233,9 @@ public class TestService {
     }
 
     @Test
-    public void listeQuestionsTrieesNbDeVotesDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void listeQuestionsTrieesNbDeVotesDifferents() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
-        Service service = new impl();
+        Service service = new Impl();
 
         VDQuestion question1 = new VDQuestion();
         question1.contenu = "Ma question 1";
@@ -269,9 +277,9 @@ public class TestService {
     }
 
     @Test
-    public void listeQuestionsTrieesMemeNombreDeVotes() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void listeQuestionsTrieesMemeNombreDeVotes() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
-        Service service = new impl();
+        Service service = new Impl();
 
         VDQuestion question1 = new VDQuestion();
         question1.contenu = "Quel est ton nom ?";
@@ -312,9 +320,9 @@ public class TestService {
     }
 
     @Test
-    public void calculDistribution() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void calculDistribution() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
-        Service service = new impl();
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -369,9 +377,9 @@ public class TestService {
     }
 
     @Test
-    public void calculMoyenne() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
+    public void calculMoyenne() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
 
-        Service service = new impl();
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -399,8 +407,8 @@ public class TestService {
     }
 
     @Test
-    public void calculEcartType() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait {
-        Service service = new impl();
+    public void calculEcartType() throws QuestionIdNonNulle, MauvaiseQuestion, QuestionExistante, MauvaisIndice, VoteNonAssocierAQuestion, VoteIdNonNulle, VoteDejaFait, QuestionPlusPetiteQue5, QuestionPlusGrandeQue255, QuestionContenuNulle {
+        Service service = new Impl();
 
         VDQuestion question = new VDQuestion();
         question.contenu = "Ma question";
@@ -430,7 +438,7 @@ public class TestService {
     @Test
     public void nomEtudiant(){
         String resultat = "Bouchard Gabriel";
-        Service service = new impl();
+        Service service = new Impl();
         Assert.assertEquals(resultat, service.nomEtudiant());
     }
 }

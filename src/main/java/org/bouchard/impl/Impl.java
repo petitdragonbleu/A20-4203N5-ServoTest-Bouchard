@@ -54,9 +54,10 @@ public class Impl implements Service {
         if(vote.voteId != null) throw new VoteIdNonNulle();
         vote.voteId = vId;
         vId++;
-        questions.get(vote.questionId).nbVote++;
+        questionParId(vote.questionId).nbVote++;
         votes.add(vote);
     }
+
 
     @Override
     public List<VDQuestion> questionsParNombreVotes() {
@@ -143,6 +144,16 @@ public class Impl implements Service {
         }
 
         return listeV;
+    }
+
+    private VDQuestion questionParId(int qId){
+
+        for(VDQuestion q  : questions){
+            if(q.questionId == qId){
+                return q;
+            }
+        }
+        return null;
     }
 
 }

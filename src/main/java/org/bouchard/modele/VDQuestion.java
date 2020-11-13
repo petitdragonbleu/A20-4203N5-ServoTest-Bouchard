@@ -8,7 +8,9 @@ public class VDQuestion {
     public Integer nbVote;
 
     public VDQuestion(){
-
+        questionId = null;
+        contenu = null;
+        nbVote = 0;
     }
 
     public VDQuestion(Integer pQuestionId, String pQuestion, Integer pNbVote){
